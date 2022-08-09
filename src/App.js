@@ -51,8 +51,6 @@ function Hit({ hit }) {
     });
     return keywords;
   }
-  console.log(handleKeywords(hit._snippetResult.keywords));
-
   return (
     <div className="container mx-auto bg-white rounded-xl shadow border m-10 flex">
       <div className="flex-auto w-64">
