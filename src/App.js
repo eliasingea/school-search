@@ -1,15 +1,13 @@
-import logo from "./logo.svg";
 import "./App.css";
 import algoliasearch from "algoliasearch/lite";
 import {
   InstantSearch,
   SearchBox,
   Hits,
-  Snippet,
   Highlight,
   RefinementList,
 } from "react-instantsearch-hooks-web";
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import { useConnector } from "react-instantsearch-hooks-web";
 import connectStats from "instantsearch.js/es/connectors/stats/connectStats";
@@ -24,16 +22,7 @@ export function useStats(props) {
 }
 
 export function Stats(props) {
-  const {
-    hitsPerPage,
-    nbHits,
-    areHitsSorted,
-    nbSortedHits,
-    nbPages,
-    page,
-    processingTimeMS,
-    query,
-  } = useStats(props);
+  const { nbHits } = useStats(props);
 
   return (
     <div className="container mx-auto m-10">
@@ -128,22 +117,66 @@ function App() {
           resetIconComponent={({ classNames }) => <></>}
         />
       </div>
-      <RefinementList
-        attribute="program"
-        classNames={{
-          root: "container mx-auto m-10",
-          list: "flex",
-          checkbox: "hidden",
-          item: "block border rounded-md p-4 m-3 h-15 w-30",
-          count: "hidden",
-        }}
-      />
-      <div className="container mx-auto m-10">
-        <p className="text-2xl text-gray-700 font-bold">Explore Programs</p>
-        <p>Results are based on top matches and on your filters.</p>
+      <div className="flex w-full">
+        <div className="w-1/3 flex-inital m-10 pl-8">
+          <div className="p-3">
+            <p className="text-gray-700 font-bold">Duration</p>
+            <RefinementList
+              attribute="duration"
+              sortBy={["count"]}
+              classNames={{
+                checkbox: "mr-1",
+                labelText: "ml-2 text-gray-700 cursor-pointer",
+                count:
+                  "ml-2 bg-sky-100 border rounded-md pl-3 pr-3 text-gray-500",
+                root: "mt-5",
+                item: "cursor-pointer",
+              }}
+            />
+          </div>
+          <div className="p-3">
+            <p className="text-gray-700 font-bold">Keywords</p>
+            <RefinementList
+              attribute="keywords"
+              searchable={true}
+              showMore={true}
+              sortBy={["count"]}
+              classNames={{
+                checkbox: "mr-1",
+                labelText: "ml-2 text-gray-700 cursor-pointer",
+                count:
+                  "ml-2 bg-sky-100 border rounded-md pl-3 pr-3 text-gray-500",
+                root: "mt-5",
+                searchBox: "border w-3/5 h-8 mb-5 hidden lg:block",
+                showMore:
+                  "border rounded-md bg-sky-500 mt-5 p-2 ml-10  text-gray-700",
+                item: "cursor-pointer",
+              }}
+            />
+          </div>
+        </div>
+        <div className="flex-initial w-4/5 pr-40">
+          <RefinementList
+            attribute="program"
+            limit={4}
+            sortBy={["count"]}
+            classNames={{
+              root: "container mx-auto m-10",
+              list: "flex",
+              checkbox: "hidden",
+              item: "block border rounded-md p-4 m-3 h-15 w-30 cursor-pointer",
+              labelText: "cursor-pointer text-gray-700",
+              count: "hidden",
+            }}
+          />
+          <div className="container mx-auto m-10">
+            <p className="text-2xl text-gray-700 font-bold">Explore Programs</p>
+            <p>Results are based on top matches and on your filters.</p>
+          </div>
+          <Stats />
+          <Hits hitComponent={Hit} />
+        </div>
       </div>
-      <Stats />
-      <Hits hitComponent={Hit} />
     </InstantSearch>
   );
 }
