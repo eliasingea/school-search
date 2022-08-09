@@ -34,23 +34,24 @@ export function Stats(props) {
 }
 
 function Hit({ hit }) {
-  function handleKeywords(keywords) {
-    keywords.sort((a, b) => {
-      if (
-        a.matchLevel === "full" &&
-        (b.matchLevel === "none" || b.matchLevel === "partial")
-      ) {
-        return -1;
-      } else if (a.matchLevel === "partial" && b.matchLevel === "none") {
-        return -1;
-      } else if (a.matchLevel === b.matchLevel) {
-        return -1;
-      } else {
-        return 1;
-      }
-    });
-    return keywords;
-  }
+  // function handleKeywords(keywords) {
+  //   keywords.sort((a, b) => {
+  //     if (
+  //       a.matchLevel === "full" &&
+  //       (b.matchLevel === "none" || b.matchLevel === "partial")
+  //     ) {
+  //       return -1;
+  //     } else if (a.matchLevel === "partial" && b.matchLevel === "none") {
+  //       return -1;
+  //     } else if (a.matchLevel === b.matchLevel) {
+  //       return -1;
+  //     } else {
+  //       return 1;
+  //     }
+  //   });
+  //   return keywords;
+  // }
+
   return (
     <div className="container mx-auto bg-white rounded-xl shadow border m-10 flex">
       <div className="flex-auto w-64">
