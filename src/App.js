@@ -6,6 +6,7 @@ import {
   Hits,
   Highlight,
   RefinementList,
+  RangeInput,
 } from "react-instantsearch-hooks-web";
 import React from "react";
 
@@ -66,7 +67,7 @@ function Hit({ hit }) {
           </p>
           <p className="text-gray-500">
             <span className="font-bold">duration: </span>
-            {hit.duration}
+            {hit.duration} years
           </p>
           <a href={hit.url} className="text-blue-400 font-bold">
             link to program
@@ -117,11 +118,13 @@ function App() {
         />
       </div>
       <div className="flex w-full">
-        <div className="w-1/3 flex-inital m-10 pl-8">
+        <div className="w-1/3 flex-inital m-10">
           <div className="p-3">
-            <p className="text-gray-700 font-bold">Duration</p>
+            <p className="text-gray-700 font-bold">Program Type</p>
             <RefinementList
-              attribute="duration"
+              attribute="program"
+              searchable={true}
+              showMore={true}
               sortBy={["count"]}
               classNames={{
                 checkbox: "mr-1",
@@ -129,6 +132,9 @@ function App() {
                 count:
                   "ml-2 bg-sky-100 border rounded-md pl-3 pr-3 text-gray-500",
                 root: "mt-5",
+                searchBox: "border-2   rounded-md w-[15rem] mb-3",
+                showMore:
+                  "border rounded-md bg-sky-500 mt-5 p-2 ml-10  text-gray-700",
                 item: "cursor-pointer",
               }}
             />
@@ -146,28 +152,36 @@ function App() {
                 count:
                   "ml-2 bg-sky-100 border rounded-md pl-3 pr-3 text-gray-500",
                 root: "mt-5",
-                searchBox: "border w-3/5 h-8 mb-5 hidden lg:block",
+                searchBox: "border-2   rounded-md w-[15rem] mb-3",
                 showMore:
                   "border rounded-md bg-sky-500 mt-5 p-2 ml-10  text-gray-700",
                 item: "cursor-pointer",
               }}
             />
           </div>
+          <div className="p-3">
+            <p className="text-gray-700 font-bold">Duration</p>
+            <RefinementList
+              attribute="duration"
+              sortBy={["label"]}
+              transformItems={(items) =>
+                items.map((item) => ({
+                  ...item,
+                  label: item.label + " years",
+                }))
+              }
+              classNames={{
+                checkbox: "mr-1",
+                labelText: "ml-2 text-gray-700 cursor-pointer",
+                count:
+                  "ml-2 bg-sky-100 border rounded-md pl-3 pr-3 text-gray-500",
+                root: "mt-5",
+                item: "cursor-pointer",
+              }}
+            />
+          </div>
         </div>
         <div className="flex-initial w-4/5 pr-40">
-          <RefinementList
-            attribute="program"
-            limit={4}
-            sortBy={["count"]}
-            classNames={{
-              root: "container mx-auto m-10",
-              list: "flex",
-              checkbox: "hidden",
-              item: "block border rounded-md p-4 m-3 h-15 w-30 cursor-pointer",
-              labelText: "cursor-pointer text-gray-700",
-              count: "hidden",
-            }}
-          />
           <div className="container mx-auto m-10">
             <p className="text-2xl text-gray-700 font-bold">Explore Programs</p>
             <p>Results are based on top matches and on your filters.</p>
