@@ -6,7 +6,6 @@ import {
   Hits,
   Highlight,
   RefinementList,
-  RangeInput,
 } from "react-instantsearch-hooks-web";
 import React from "react";
 
