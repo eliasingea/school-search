@@ -69,11 +69,28 @@ function Hit({ hit }) {
             <span className="font-bold">duration: </span>
             {hit.duration} years
           </p>
-          <a href={hit.url} className="text-blue-400 font-bold">
-            link to program
-          </a>
 
-          <p className="text-gray-500 font-bold pb-1">program info</p>
+          <p className="text-gray-500">
+            <span className="font-bold">state: </span>
+            <Highlight attribute="state" hit={hit} />
+          </p>
+          <p className="text-gray-500">
+            <span className="font-bold">Participates in Match: </span>
+            {hit.match}
+          </p>
+          <p className="text-gray-500">
+            <span className="font-bold">Deadline: </span>
+            {hit.deadline}
+          </p>
+          <p className="text-gray-500">
+            <span className="font-bold">Start Date: </span>
+            {hit.starts_on}
+          </p>
+          <p className="text-gray-500">
+            <span className="font-bold">Available Positions: </span>
+            {hit.available_positions}
+          </p>
+          <p className="text-gray-500 font-bold pb-1">Keywords</p>
           {Array.from(hit._snippetResult.keywords)
             .slice(0, 5)
             .map((keywords) => {
@@ -85,6 +102,9 @@ function Hit({ hit }) {
                 ></p>
               );
             })}
+          <a href={hit.url} className="text-blue-400 font-bold">
+            link to program
+          </a>
         </div>
       </div>
       {/* <div className="flex-auto w-32 invisible sm:visible">
@@ -100,7 +120,7 @@ function Hit({ hit }) {
 
 function App() {
   return (
-    <InstantSearch searchClient={searchClient} indexName="aegd_transform">
+    <InstantSearch searchClient={searchClient} indexName="aegds">
       <div className="md:container md:mx-auto flex items-center justify-center mt-8">
         <SearchBox
           placeholder="Search for programs..."
@@ -123,7 +143,6 @@ function App() {
             <p className="text-gray-700 font-bold">Program Type</p>
             <RefinementList
               attribute="program"
-              searchable={true}
               showMore={true}
               sortBy={["count"]}
               classNames={{
@@ -140,12 +159,66 @@ function App() {
             />
           </div>
           <div className="p-3">
-            <p className="text-gray-700 font-bold">Keywords</p>
+            <p className="text-gray-700 font-bold">State</p>
             <RefinementList
-              attribute="keywords"
-              searchable={true}
+              attribute="state"
               showMore={true}
               sortBy={["count"]}
+              classNames={{
+                checkbox: "mr-1",
+                labelText: "ml-2 text-gray-700 cursor-pointer",
+                count:
+                  "ml-2 bg-sky-100 border rounded-md pl-3 pr-3 text-gray-500",
+                root: "mt-5",
+                searchBox: "border-2   rounded-md w-[15rem] mb-3",
+                showMore:
+                  "border rounded-md bg-sky-500 mt-5 p-2 ml-10  text-gray-700",
+                item: "cursor-pointer",
+              }}
+            />
+          </div>
+          <div className="p-3">
+            <p className="text-gray-700 font-bold">Match</p>
+            <RefinementList
+              attribute="match"
+              sortBy={["count"]}
+              classNames={{
+                checkbox: "mr-1",
+                labelText: "ml-2 text-gray-700 cursor-pointer",
+                count:
+                  "ml-2 bg-sky-100 border rounded-md pl-3 pr-3 text-gray-500",
+                root: "mt-5",
+                searchBox: "border-2   rounded-md w-[15rem] mb-3",
+                showMore:
+                  "border rounded-md bg-sky-500 mt-5 p-2 ml-10  text-gray-700",
+                item: "cursor-pointer",
+              }}
+            />
+          </div>
+          <div className="p-3">
+            <p className="text-gray-700 font-bold">Positions</p>
+            <RefinementList
+              attribute="available_positions"
+              sortBy={["label"]}
+              classNames={{
+                checkbox: "mr-1",
+                labelText: "ml-2 text-gray-700 cursor-pointer",
+                count:
+                  "ml-2 bg-sky-100 border rounded-md pl-3 pr-3 text-gray-500",
+                root: "mt-5",
+                searchBox: "border-2   rounded-md w-[15rem] mb-3",
+                showMore:
+                  "border rounded-md bg-sky-500 mt-5 p-2 ml-10  text-gray-700",
+                item: "cursor-pointer",
+              }}
+            />
+          </div>
+
+          <div className="p-3">
+            <p className="text-gray-700 font-bold">Deadline</p>
+            <RefinementList
+              attribute="deadline"
+              sortBy={["label"]}
               classNames={{
                 checkbox: "mr-1",
                 labelText: "ml-2 text-gray-700 cursor-pointer",
