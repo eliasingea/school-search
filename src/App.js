@@ -131,6 +131,32 @@ function Hit({ hit }) {
 }
 
 function App() {
+  const monthNames = {
+    January: 1,
+    February: 2,
+    March: 3,
+    April: 4,
+    May: 5,
+    June: 6,
+    July: 7,
+    August: 8,
+    September: 9,
+    October: 10,
+    November: 11,
+    December: 12,
+  };
+
+  const sortByName = (a, b) => {
+    let aStr = a.name.replace(",", "");
+    let bStr = b.name.replace(",", "");
+    let aSplit = aStr.split(" ");
+    let bSplit = bStr.split(" ");
+    let aDate = new Date(aSplit[2], monthNames[aSplit[0]], aSplit[1]);
+    let bDate = new Date(bSplit[2], monthNames[bSplit[0]], bSplit[1]);
+
+    return aDate < bDate ? -1 : 1;
+  };
+
   return (
     <InstantSearch searchClient={searchClient} indexName="aegd">
       <div className="md:container md:mx-auto flex items-center justify-center mt-8">
@@ -230,7 +256,7 @@ function App() {
             <p className="text-gray-700 font-bold">Deadline</p>
             <RefinementList
               attribute="deadline"
-              sortBy={["label"]}
+              sortBy={sortByName}
               classNames={{
                 checkbox: "mr-1",
                 labelText: "ml-2 text-gray-700 cursor-pointer",
