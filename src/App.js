@@ -13,8 +13,8 @@ import { useConnector } from "react-instantsearch-hooks-web";
 import connectStats from "instantsearch.js/es/connectors/stats/connectStats";
 
 const searchClient = algoliasearch(
-  "SRD7V01PUE",
-  "21d2cd80869e20eb0becf4065f058b95"
+  "NCJSK5LPL6",
+  "8648ca4529e31fb962d34a8738ce368a"
 );
 
 export function useStats(props) {
@@ -51,7 +51,18 @@ function Hit({ hit }) {
   //   });
   //   return keywords;
   // }
-
+  let program;
+  if (hit.program) {
+    program = <Highlight attribute="program" hit={hit} />;
+  } else {
+    program = <Highlight attribute="Program Type" hit={hit} />;
+  }
+  let duration;
+  if (hit.length) {
+    duration = hit["length"];
+  } else {
+    duration = "12 months";
+  }
   return (
     <div className="container mx-auto bg-white rounded-xl shadow border m-10 flex">
       <div className="flex-auto w-64">
@@ -62,46 +73,48 @@ function Hit({ hit }) {
         <div className="p-7">
           <p className="text-gray-500">
             <span className="font-bold">program type: </span>
-            <Highlight attribute="program" hit={hit} />
+            {program}
           </p>
           <p className="text-gray-500">
             <span className="font-bold">duration: </span>
-            {hit.duration} years
+            {duration}
           </p>
-
-          <p className="text-gray-500">
-            <span className="font-bold">state: </span>
-            <Highlight attribute="state" hit={hit} />
-          </p>
-          <p className="text-gray-500">
-            <span className="font-bold">Participates in Match: </span>
-            {hit.match}
-          </p>
-          <p className="text-gray-500">
-            <span className="font-bold">Deadline: </span>
-            {hit.deadline}
-          </p>
-          <p className="text-gray-500">
-            <span className="font-bold">Start Date: </span>
-            {hit.starts_on}
-          </p>
-          <p className="text-gray-500">
-            <span className="font-bold">Available Positions: </span>
-            {hit.available_positions}
-          </p>
-          <p className="text-gray-500 font-bold pb-1">Keywords</p>
-          {Array.from(hit._snippetResult.keywords)
-            .slice(0, 5)
-            .map((keywords) => {
-              return (
-                <p
-                  key={keywords.value}
-                  className="text-gray-500"
-                  dangerouslySetInnerHTML={{ __html: keywords.value }}
-                ></p>
-              );
-            })}
-          <a href={hit.url} className="text-blue-400 font-bold">
+          {hit.state && (
+            <p className="text-gray-500">
+              <span className="font-bold">state: </span>
+              <Highlight attribute="state" hit={hit} />
+            </p>
+          )}
+          {hit.match && (
+            <p className="text-gray-500">
+              <span className="font-bold">Participates in Match: </span>
+              {hit.match}
+            </p>
+          )}
+          {hit.deadline && (
+            <p className="text-gray-500">
+              <span className="font-bold">Deadline: </span>
+              {hit.deadline}
+            </p>
+          )}
+          {hit.start_on && (
+            <p className="text-gray-500">
+              <span className="font-bold">Start Date: </span>
+              {hit.starts_on}
+            </p>
+          )}
+          {hit.available_positions && (
+            <p className="text-gray-500">
+              <span className="font-bold">Available Positions: </span>
+              {hit.available_positions}
+            </p>
+          )}
+          <a
+            href={hit.url}
+            target="_blank"
+            rel="noreferrer"
+            className="text-blue-400 font-bold"
+          >
             link to program
           </a>
         </div>
@@ -119,7 +132,7 @@ function Hit({ hit }) {
 
 function App() {
   return (
-    <InstantSearch searchClient={searchClient} indexName="aegds">
+    <InstantSearch searchClient={searchClient} indexName="aegd">
       <div className="md:container md:mx-auto flex items-center justify-center mt-8">
         <SearchBox
           placeholder="Search for programs..."
@@ -234,14 +247,8 @@ function App() {
           <div className="p-3">
             <p className="text-gray-700 font-bold">Duration</p>
             <RefinementList
-              attribute="duration"
-              sortBy={["label"]}
-              transformItems={(items) =>
-                items.map((item) => ({
-                  ...item,
-                  label: item.label + " years",
-                }))
-              }
+              attribute="length"
+              sortBy={["name:asc"]}
               classNames={{
                 checkbox: "mr-1",
                 labelText: "ml-2 text-gray-700 cursor-pointer",
