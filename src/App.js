@@ -63,6 +63,7 @@ function Hit({ hit }) {
   } else {
     duration = "12 months";
   }
+  console.log(hit._snippetResult);
   return (
     <div className="container mx-auto bg-white rounded-xl shadow border m-10 flex">
       <div className="flex-auto w-64">
@@ -109,6 +110,18 @@ function Hit({ hit }) {
               {hit.available_positions}
             </p>
           )}
+          <p className="text-gray-500 font-bold pb-1">Keywords</p>
+          {Array.from(hit._snippetResult.keywords)
+            .slice(0, 5)
+            .map((keywords) => {
+              return (
+                <p
+                  key={keywords.value}
+                  className="text-gray-500"
+                  dangerouslySetInnerHTML={{ __html: keywords.value }}
+                ></p>
+              );
+            })}
           <a
             href={hit.url}
             target="_blank"
