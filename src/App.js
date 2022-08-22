@@ -47,12 +47,11 @@ function Hit({ hit }) {
   } else {
     duration = "12 months";
   }
-  console.log(hit._snippetResult);
   return (
     <div className="container mx-auto bg-white rounded-xl shadow border m-10 flex">
       <div className="flex-auto w-64">
         <p className="text-1xl text-gray-700 font-bold mb-1 sm:p-7 pt-4 pr-6 pl-6">
-          <Highlight attribute="Program Name" hit={hit} />
+          <Highlight attribute="title" hit={hit} />
         </p>
         <div className="w-[calc(100%_-_2rem)] border-t-2 border-dashed border-gray-300 ml-7 invisible md:visible"></div>
         <div className="pl-7 pr-7 pt-4 pb-4">
@@ -85,7 +84,7 @@ function Hit({ hit }) {
           {hit.start_on && (
             <p className="text-gray-500">
               <span className="font-bold">Start Date: </span>
-              {hit.starts_on}
+              {hit.start_on}
             </p>
           )}
           {hit.available_positions && (
@@ -95,17 +94,18 @@ function Hit({ hit }) {
             </p>
           )}
           <p className="text-gray-500 font-bold pb-1">Keywords</p>
-          {Array.from(hit._snippetResult.keywords)
-            .slice(0, 5)
-            .map((keywords) => {
-              return (
-                <p
-                  key={keywords.value}
-                  className="text-gray-500"
-                  dangerouslySetInnerHTML={{ __html: keywords.value }}
-                ></p>
-              );
-            })}
+          {hit._snippetResult?.keywords &&
+            Array.from(hit._snippetResult.keywords)
+              .slice(0, 5)
+              .map((keywords) => {
+                return (
+                  <p
+                    key={keywords.value}
+                    className="text-gray-500"
+                    dangerouslySetInnerHTML={{ __html: keywords.value }}
+                  ></p>
+                );
+              })}
           <a
             href={hit.url}
             target="_blank"
@@ -198,6 +198,25 @@ function App() {
             <p className="text-gray-700 font-bold">Program Type</p>
             <RefinementList
               attribute="program"
+              showMore={true}
+              sortBy={["count"]}
+              classNames={{
+                checkbox: "mr-1",
+                labelText: "ml-2 text-gray-700 cursor-pointer",
+                count:
+                  "ml-2 bg-sky-100 border rounded-md pl-3 pr-3 text-gray-500",
+                root: "mt-5",
+                searchBox: "border-2 rounded-md w-[15rem] mb-3",
+                showMore:
+                  "border rounded-md bg-sky-500 mt-5 p-2 ml-10  text-gray-700",
+                item: "cursor-pointer",
+              }}
+            />
+          </div>
+          <div className="p-3">
+            <p className="text-gray-700 font-bold">Keywords</p>
+            <RefinementList
+              attribute="keywords"
               showMore={true}
               sortBy={["count"]}
               classNames={{
