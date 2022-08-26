@@ -218,6 +218,7 @@ function App() {
             <RefinementList
               attribute="keywords"
               showMore={true}
+              showMoreLimit={40}
               sortBy={["count"]}
               classNames={{
                 checkbox: "mr-1",
@@ -236,6 +237,7 @@ function App() {
             <p className="text-gray-700 font-bold">State</p>
             <RefinementList
               attribute="state"
+              showMoreLimit={30}
               showMore={true}
               sortBy={["count"]}
               classNames={{
