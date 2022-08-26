@@ -276,6 +276,7 @@ function App() {
             <RefinementList
               attribute="available_positions"
               sortBy={["label"]}
+              showMore={true}
               classNames={{
                 checkbox: "mr-1",
                 labelText: "ml-2 text-gray-700 cursor-pointer",
@@ -308,11 +309,12 @@ function App() {
               }}
             />
           </div>
+          {/* todo: fix duration */}
           <div className="p-3">
             <p className="text-gray-700 font-bold">Duration</p>
             <RefinementList
               attribute="length"
-              sortBy={["name:asc"]}
+              sortBy={["count"]}
               classNames={{
                 checkbox: "mr-1",
                 labelText: "ml-2 text-gray-700 cursor-pointer",
